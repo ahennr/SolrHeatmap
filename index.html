@@ -1,125 +1,74 @@
-<!DOCTYPE  html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    
-    <title>doc</title>
-    <style>
-      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
-      pre code {
-        display: block; padding: 0.5em;
-        color: #333;
-        background: #f8f8ff
-      }
-      pre .comment,
-      pre .template_comment,
-      pre .diff .header,
-      pre .javadoc {
-        color: #998;
-        font-style: italic
-      }
-      pre .keyword,
-      pre .css .rule .keyword,
-      pre .winutils,
-      pre .javascript .title,
-      pre .nginx .title,
-      pre .subst,
-      pre .request,
-      pre .status {
-        color: #333;
-        font-weight: bold
-      }
-      pre .number,
-      pre .hexcolor,
-      pre .ruby .constant {
-        color: #099;
-      }
-      pre .string,
-      pre .tag .value,
-      pre .phpdoc,
-      pre .tex .formula {
-        color: #d14
-      }
-      pre .title,
-      pre .id {
-        color: #900;
-        font-weight: bold
-      }
-      pre .javascript .title,
-      pre .lisp .title,
-      pre .clojure .title,
-      pre .subst {
-        font-weight: normal
-      }
-      pre .class .title,
-      pre .haskell .type,
-      pre .vhdl .literal,
-      pre .tex .command {
-        color: #458;
-        font-weight: bold
-      }
-      pre .tag,
-      pre .tag .title,
-      pre .rules .property,
-      pre .django .tag .keyword {
-        color: #000080;
-        font-weight: normal
-      }
-      pre .attribute,
-      pre .variable,
-      pre .lisp .body {
-        color: #008080
-      }
-      pre .regexp {
-        color: #009926
-      }
-      pre .class {
-        color: #458;
-        font-weight: bold
-      }
-      pre .symbol,
-      pre .ruby .symbol .string,
-      pre .lisp .keyword,
-      pre .tex .special,
-      pre .prompt {
-        color: #990073
-      }
-      pre .built_in,
-      pre .lisp .title,
-      pre .clojure .built_in {
-        color: #0086b3
-      }
-      pre .preprocessor,
-      pre .pi,
-      pre .doctype,
-      pre .shebang,
-      pre .cdata {
-        color: #999;
-        font-weight: bold
-      }
-      pre .deletion {
-        background: #fdd
-      }
-      pre .addition {
-        background: #dfd
-      }
-      pre .diff .change {
-        background: #0086b3
-      }
-      pre .chunk {
-        color: #aaa
-      }
-    </style>
-  </head>
-  <body>  
-    <p>AngularJS + OL3 interface to query a Apache Solr instance.
-The Solr instance can be filtered by time, by a search term and by space.</p>
-<p>Used libraries:</p>
-<ul>
-<li>AngularJS v1.5.5</li>
-<li>OpenLayers 3 (v3.16.0)</li>
-<li>Bootstrap v3.3.4</li>
-</ul>
+<!DOCTYPE html>
+<html ng-app="SolrHeatmapApp">
 
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Solr &dash; Heatmap (Sample UI)</title>
+
+  <!-- LIBRARY CSS -->
+  <link rel="stylesheet" href="./assets/lib/ol3/ol.css">
+  <link rel="stylesheet" href="./assets/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/2.13.0/rzslider.min.css"/>
+
+  <!-- LIBRARY JS -->
+  <script src="./assets/lib/jquery/jquery-2.1.3.min.js"></script>
+  <script src="./assets/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./assets/lib/angularjs/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/2.13.0/rzslider.min.js"></script>
+  <script src="./assets/lib/proj4js/proj4.js"></script>
+  <script src="./config/3857.js"></script>
+  <!-- <script src="./assets/lib/ol3/ol-debug.js"></script> -->
+  <script src="./assets/lib/ol3/ol.js"></script>
+
+  <!-- APP CSS -->
+  <link rel="stylesheet" href="./assets/css/app.css">
+
+  <!-- APP JS -->
+  <script src="./app/app.js"></script>
+  <script src="./app/controller/Main.js"></script>
+  <script src="./app/controller/BackgroundLayer.js"></script>
+  <script src="./app/controller/Search.js"></script>
+  <script src="./app/controller/Export.js"></script>
+  <script src="./app/controller/YearSlide.js"></script>
+  <script src="./app/service/Map.js"></script>
+  <script src="./app/service/HeatMapSourceGenerator.js"></script>
+  <script src="./app/service/GeoNodeSolr.js"></script>
+
+</head>
+
+<body ng-controller="mainCtrl">
+   <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h1>Solr-Heatmap-Client based on AngularJS and OL3</h1>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<ng-include src="'./app/view/toolbarSearchField.html'"></ng-include>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<ng-include src="'./app/view/sliderChooseYear.html'"></ng-include>
+					</div>
+				</div>
+        <hr>
+				<div class="row">
+					<div class="col-md-12">
+            <!-- the ol3 map -->
+            <div class="map" id="map"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<ng-include src="'./app/view/exportButton.html'"></ng-include>
+					</div>
+				</div>
+			</div>
+		</div>
+    <ng-include src="'./app/view/mapPopup.html'"></ng-include>
+	</div>
+</body>
 </html>
