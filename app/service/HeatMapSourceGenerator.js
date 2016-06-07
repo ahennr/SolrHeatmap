@@ -110,14 +110,12 @@ angular
             timeProp = 'LayerDate:['+ formatTime(reqParamsUi.yearMin)+' TO '+ formatTime(reqParamsUi.yearMax)+']';
             params.fq.push(timeProp);
 
-            baseUrl = './API/mockup_existing_all.json';
+            baseUrl = solrHeatmapApp.appConfig.solrBaseUrl;
 
             config = {
               url: baseUrl,
               method: 'GET',
-              params: {
-                url: encodeURIComponent(solrHeatmapApp.appConfig.solrBaseUrl) + $.param(params)
-              }
+              params: params
             };
 
             //  load the data at the moment: use mockup
