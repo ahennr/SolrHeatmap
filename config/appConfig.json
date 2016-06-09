@@ -1,7 +1,7 @@
 {
     "appConfig": {
         "proxyPath": "",
-        "solrBaseUrl": "http://54.221.223.91:8983/solr/hypermap/select"
+        "solrBaseUrl": ".API/mockup2.json"
     },
     "mapConfig": {
         "renderer": "canvas",

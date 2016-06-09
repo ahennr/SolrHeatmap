@@ -23,7 +23,7 @@ angular
             boost : 30.0
           },
           searchObj = {
-            yearMin: 0,
+            yearMin: 2005,
             yearMax: 2016,
             searchText : ''
           };
@@ -110,18 +110,25 @@ angular
             timeProp = 'LayerDate:['+ formatTime(reqParamsUi.yearMin)+' TO '+ formatTime(reqParamsUi.yearMax)+']';
             params.fq.push(timeProp);
 
-            $.ajax({
-                url: solrHeatmapApp.appConfig.solrBaseUrl,
-                data: params,
-                'success': function(data) {
-                    MapService.createOrUpdateHeatMapLayer(data);
-                    console.log("success: " , data);
-                },
-                'error':function(data){
-                    console.log("failure: ", data);
-                },
-                dataType: 'jsonp',
-                jsonp: 'json.wrf'
+            baseUrl = './API/mockup2.json';
+
+            config = {
+              url: baseUrl,
+              method: 'GET',
+              params: {
+                url: encodeURIComponent(solrHeatmapApp.appConfig.solrBaseUrl) + $.param(params)
+              }
+            };
+
+            //  load the data at the moment: use mockup
+            $http(config).
+            success(function(data, status, headers, config) {
+              MapService.createOrUpdateHeatMapLayer(data);
+            }).
+            error(function(data, status, headers, config) {
+              // hide the loading mask
+              //angular.element(document.querySelector('.waiting-modal')).modal('hide');
+              console.log("An error occured while reading heatmap data");
             });
           }
         }
